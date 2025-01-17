@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -18,7 +17,12 @@ public class PrenotazioneController {
 
 
     @PostMapping
-    public ResponseEntity<Prenotazione> createPrenotazione(@RequestBody PrenotazioneCreaRequest prenotazioneCreaRequest){
-        return new ResponseEntity<>(prenotazioneService.prenotaEvento(prenotazioneCreaRequest), HttpStatus.CREATED);
+    public ResponseEntity<Prenotazione> createPrenotazione(
+            @RequestParam Long idEvento,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Prenotazione prenotazione = prenotazioneService.prenotaEvento(idEvento, userDetails);
+
+        return new ResponseEntity<>(prenotazione, HttpStatus.CREATED);
     }
 }

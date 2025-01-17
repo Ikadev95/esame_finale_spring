@@ -8,6 +8,8 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -20,16 +22,18 @@ public class PrenotazioneService {
     private final AppUserRepository utenteRepository;
 
     //prenota un evento
-    public Prenotazione prenotaEvento(@Valid PrenotazioneCreaRequest prenotazioneCreaRequest) {
+    public Prenotazione prenotaEvento(@Valid Long idEvento,
+                                      @AuthenticationPrincipal UserDetails userDetails) {
 
-        Evento evento = eventoRepository.findById(prenotazioneCreaRequest.getIdEvento())
+        Evento evento = eventoRepository.findById(idEvento)
                 .orElseThrow(() -> new EntityNotFoundException("Evento non trovato"));
 
-        AppUser utente = utenteRepository.findById(prenotazioneCreaRequest.getIdUser())
+
+        AppUser utente = utenteRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
 
         if (prenotazioneRepository.existsByEventoAndUtente(evento, utente)) {
-            throw new EntityExistsException( "L'utente ha già prenotato questo evento");
+            throw new EntityExistsException("L'utente ha già prenotato questo evento");
         }
 
         Prenotazione prenotazione = new Prenotazione();
