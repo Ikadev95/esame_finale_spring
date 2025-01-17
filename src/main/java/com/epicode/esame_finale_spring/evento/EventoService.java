@@ -2,6 +2,7 @@ package com.epicode.esame_finale_spring.evento;
 
 import com.epicode.esame_finale_spring.auth.AppUser;
 import com.epicode.esame_finale_spring.auth.AppUserRepository;
+import com.epicode.esame_finale_spring.auth.Role;
 import com.epicode.esame_finale_spring.utente.UtenteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,7 +56,7 @@ public class EventoService {
         if (eventoEsistente.isPresent()) {
             Evento evento = eventoEsistente.get();
 
-            if (!evento.getIdOrganizzatore().equals(utente.getId())) {
+            if (!evento.getIdOrganizzatore().equals(utente.getId()) && !utente.getRoles().contains(Role.ROLE_ADMIN)) {
                 throw new IllegalArgumentException("L'ID dell'organizzatore non corrisponde all'evento");
             }
 
@@ -72,11 +74,16 @@ public class EventoService {
             throw new EntityNotFoundException("l'evento cercato non esiste");
         }
         AppUser utente = utenteRepository.findByUsername(userDetails.getUsername()).get();
-        if(eventoRepository.getIdOrganizer(id) != utente.getId()){
+        if(eventoRepository.getIdOrganizer(id) != utente.getId() && !utente.getRoles().contains(Role.ROLE_ADMIN)){
             throw new IllegalArgumentException("L'ID dell'organizzatore non corrisponde all'evento");
         }
          eventoRepository.deleteById(id);
         return true;
+    }
+
+    //get eventi
+    public List<Evento> getEventi(){
+        return eventoRepository.findAll();
     }
 
 
