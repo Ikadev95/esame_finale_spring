@@ -21,6 +21,7 @@ public class Evento {
     private String titolo;
     private String descrizione;
     private Long idOrganizzatore;
+    private int postiOccupati = 0;
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<Prenotazione> prenotazioni;
 

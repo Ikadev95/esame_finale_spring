@@ -23,22 +23,27 @@ public class ExceptionHandlerClass extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = SecurityException.class)
-    protected ResponseEntity<String> entityNotFound(SecurityException ex) {
+    protected ResponseEntity<String> securityEx(SecurityException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = DateTimeException.class)
-    protected ResponseEntity<String> entityNotFound(DateTimeException ex) {
+    protected ResponseEntity<String> dateEx(DateTimeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = EntityExistsException.class)
-    protected ResponseEntity<String> entityNotFound(EntityExistsException ex) {
+    protected ResponseEntity<String> entityExists(EntityExistsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    protected ResponseEntity<String> entityNotFound(IllegalArgumentException ex) {
+    protected ResponseEntity<String> illegalArg(IllegalArgumentException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = IndexOutOfBoundsException.class)
+    protected ResponseEntity<String> indexOut(IndexOutOfBoundsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

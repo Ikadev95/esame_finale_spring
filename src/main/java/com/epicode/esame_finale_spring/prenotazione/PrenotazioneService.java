@@ -6,6 +6,7 @@ import com.epicode.esame_finale_spring.evento.Evento;
 import com.epicode.esame_finale_spring.evento.EventoRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +23,7 @@ public class PrenotazioneService {
     private final AppUserRepository utenteRepository;
 
     //prenota un evento
+    @Transactional
     public Prenotazione prenotaEvento(@Valid Long idEvento,
                                       @AuthenticationPrincipal UserDetails userDetails) {
 
@@ -35,6 +37,11 @@ public class PrenotazioneService {
         if (prenotazioneRepository.existsByEventoAndUtente(evento, utente)) {
             throw new EntityExistsException("L'utente ha già prenotato questo evento");
         }
+        if(evento.getPostiDisponibili() <= evento.getPostiOccupati()){
+            throw new IndexOutOfBoundsException("non ci sono più posti disponibili per questo evento");
+        }
+
+        evento.setPostiOccupati(evento.getPostiOccupati()+1);
 
         Prenotazione prenotazione = new Prenotazione();
         prenotazione.setEvento(evento);

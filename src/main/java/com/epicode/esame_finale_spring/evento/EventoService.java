@@ -29,6 +29,7 @@ public class EventoService {
         e.setDescrizione(eventoCreaRequest.getDescrizione());
         e.setLuogo(eventoCreaRequest.getLuogo());
         e.setIdOrganizzatore(eventoCreaRequest.getIdOrganizzatore());
+        e.setPostiDisponibili(eventoCreaRequest.getPostiDisponibili());
 
         return eventoRepository.save(e);
     }
