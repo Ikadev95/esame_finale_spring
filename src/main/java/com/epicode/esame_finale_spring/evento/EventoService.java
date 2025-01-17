@@ -52,5 +52,17 @@ public class EventoService {
         }
     }
 
+    //elimino evento
+    public Boolean deleteEvento (Long id, Long idOrg){
+        if(!eventoRepository.existsById(id)){
+            throw new EntityNotFoundException("l'evento cercato non esiste");
+        }
+        if(eventoRepository.getIdOrganizer(id) != idOrg){
+            throw new IllegalArgumentException("L'ID dell'organizzatore non corrisponde all'evento");
+        }
+         eventoRepository.deleteById(id);
+        return true;
+    }
+
 
 }

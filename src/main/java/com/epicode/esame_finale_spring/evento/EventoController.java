@@ -24,4 +24,12 @@ public class EventoController {
     public ResponseEntity<Evento> modifyEvento(@RequestBody EventoCreaRequest eventoCreaRequest, @PathVariable Long id){
         return ResponseEntity.ok(eventoService.modifyEvento(eventoCreaRequest, id));
     }
+    @PreAuthorize("hasRole('ORGANIZER')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEvento(@PathVariable Long id, @RequestBody Long idOrg){
+        eventoService.deleteEvento(id, idOrg);
+        return new ResponseEntity<>("evento eliminato", HttpStatus.NO_CONTENT);
+    }
+
+
 }
