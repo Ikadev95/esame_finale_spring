@@ -16,6 +16,7 @@ public class PrenotazioneController {
     private final PrenotazioneService prenotazioneService;
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<Prenotazione> createPrenotazione(
             @RequestParam Long idEvento,

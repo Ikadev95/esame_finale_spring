@@ -8,8 +8,6 @@ import java.time.LocalDate;
 
 @Data
 public class EventoCreaRequest {
-    @NotNull(message = "l'id organizzatore non può essere vuoto")
-    private Long idOrganizzatore;
     @NotNull(message = "la data non può essere vuota")
     private LocalDate data;
     @NotBlank(message = "il luogo non può essere vuoto")

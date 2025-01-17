@@ -29,7 +29,7 @@ public class ExceptionHandlerClass extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = DateTimeException.class)
     protected ResponseEntity<String> dateEx(DateTimeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = EntityExistsException.class)
@@ -46,8 +46,6 @@ public class ExceptionHandlerClass extends ResponseEntityExceptionHandler {
     protected ResponseEntity<String> indexOut(IndexOutOfBoundsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-
 
 
     @ExceptionHandler(ConstraintViolationException.class)
