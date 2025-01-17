@@ -1,7 +1,7 @@
 package com.epicode.esame_finale_spring.prenotazione;
 
+import com.epicode.esame_finale_spring.auth.AppUser;
 import com.epicode.esame_finale_spring.evento.Evento;
-import com.epicode.esame_finale_spring.utente.Utente;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +19,6 @@ public class Prenotazione {
 
     @ManyToOne
     @JoinColumn(name = "utente_id")
-    private Utente utente;
+    private AppUser utente;
 
 }

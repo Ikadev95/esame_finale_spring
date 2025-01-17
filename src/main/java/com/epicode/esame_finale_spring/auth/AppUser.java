@@ -1,9 +1,11 @@
 package com.epicode.esame_finale_spring.auth;
 
+import com.epicode.esame_finale_spring.prenotazione.Prenotazione;
 import com.epicode.esame_finale_spring.utente.Utente;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,4 +29,7 @@ public class AppUser {
 
     @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
     private Utente utente;
+
+    @OneToMany (mappedBy = "utente", cascade = CascadeType.ALL)
+    private List<Prenotazione> prenotazioni;
 }

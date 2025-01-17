@@ -18,8 +18,6 @@ public class Utente {
     private String nome;
     private String cognome;
     private String email;
-    @OneToMany (mappedBy = "utente", cascade = CascadeType.ALL)
-    private List<Prenotazione> prenotazioni;
     @OneToOne
     @JoinColumn(name ="user_id", nullable = false, unique = true)
     private AppUser appUser;
